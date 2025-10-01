@@ -121,7 +121,7 @@ export const useFormDataWithAPI = () => {
     console.log("formData para cálculo:", formData);
     const sessionId = calculationSession.calculationId;
     if (!sessionId) {
-      console.error("❌ Nenhum sessionId encontrado");
+      console.error("❌ Nenhum ID de cálculo encontrado.");
       setCalculationSession(prev => ({ ...prev, error: "Nenhum ID de cálculo encontrado. Por favor, reinicie a sessão." }));
       return;
     }
