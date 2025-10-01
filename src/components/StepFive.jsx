@@ -164,7 +164,7 @@ const StepFive = ({ formData, updateFormData, onCalculate, onPrev, canProceed, l
             Anterior
           </Button>
           
-          <Button            onClick={() => { alert(\'Botão Calcular Valor clicado no StepFive!\'); onCalculate(); }}            disabled={!canProceed || loading}
+          <Button            onClick={onCalculate}            disabled={!canProceed || loading}
             className={`
               px-8 py-3 transition-all duration-200
               ${canProceed && !loading
