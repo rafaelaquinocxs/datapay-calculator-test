@@ -120,18 +120,18 @@ export const useFormDataWithAPI = () => {
       
       if (response.success) {
         setCalculationResult(response.result);
-        setCalculationSession(prev => ({ ...prev, isLoading: false }));
-        return response.result;
+        setCalculationSession(prev => ({ ...prev, isLoading: false, currentStep: 6 }));
       } else {
-        throw new Error(response.error || 'Erro ao calcular valor');
+        console.error("Erro na resposta da API:", response);
+        setCalculationSession(prev => ({ ...prev, isLoading: false, error: response.error || "Erro ao calcular o valor dos dados." }));
       }
     } catch (error) {
+      console.error("Erro ao chamar a API de cálculo:", error);
       setCalculationSession(prev => ({
         ...prev,
         isLoading: false,
-        error: error.message
+        error: error.message || "Erro de conexão com o servidor. Tente novamente."
       }));
-
       throw error;
     }
   };
