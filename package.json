@@ -1,6 +1,7 @@
 {
   "name": "datapay-calculator",
   "private": true,
+  "homepage": "https://rafaelaquinocxs.github.io/datapay-calculator-test/",
   "version": "1.0.1",
   "type": "module",
   "scripts": {
