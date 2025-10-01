@@ -24,10 +24,14 @@ export const useFormDataWithAPI = () => {
   // Inicializar sessão da calculadora
     const initializeSession = async () => {
       console.log("Attempting to initialize session...");
+      console.log("API_BASE_URL:", apiService.baseURL); // Adicionar log da URL base da API
+
     try {
       setCalculationSession(prev => ({ ...prev, isLoading: true, error: null }));
       
       const response = await apiService.startCalculation();
+      console.log("Response from startCalculation:", response);
+
       
       if (response.success) {
         setCalculationSession(prev => ({
