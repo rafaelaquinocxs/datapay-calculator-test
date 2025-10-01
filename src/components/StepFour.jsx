@@ -10,7 +10,7 @@ import {
   Stethoscope, 
   Brain 
 } from 'lucide-react';
-import { HEALTH_INTERESTS } from '../types/index.js';
+import { HEALTH_INTERESTS } from '@/types/index.js';
 
 const StepFour = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleHealthInterestToggle = (interest) => {

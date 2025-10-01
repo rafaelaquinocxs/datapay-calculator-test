@@ -17,7 +17,7 @@ import {
   Dumbbell,
   BookOpen
 } from 'lucide-react';
-import { SHOPPING_CHANNELS, SHOPPING_CATEGORIES } from '../types/index.js';
+import { SHOPPING_CHANNELS, SHOPPING_CATEGORIES } from '@/types/index.js';
 
 const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleChannelToggle = (channel) => {

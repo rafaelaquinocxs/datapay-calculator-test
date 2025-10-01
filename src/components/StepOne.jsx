@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button.jsx';
 import { Input } from '@/components/ui/input.jsx';
 import { Label } from '@/components/ui/label.jsx';
-import { GENDER_OPTIONS } from '../types/index.js';
+import { GENDER_OPTIONS } from '@/types/index.js';
 
 const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleGenderSelect = (gender) => {

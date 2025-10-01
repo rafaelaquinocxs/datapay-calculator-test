@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button.jsx';
 import { Label } from '@/components/ui/label.jsx';
 import { Slider } from '@/components/ui/slider.jsx';
 import { Instagram, Facebook, Linkedin, Music, Twitter, Youtube } from 'lucide-react';
-import { SOCIAL_NETWORKS } from '../types/index.js';
+import { SOCIAL_NETWORKS } from '@/types/index.js';
 
 const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleSocialNetworkToggle = (network) => {
