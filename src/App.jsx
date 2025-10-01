@@ -1,185 +1,224 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import SupplierRoute from './components/SupplierRoute';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Home from './pages/Home';
-import Marketplace from './pages/Marketplace';
-import Messages from './pages/Messages';
-import MyProducts from './pages/MyProducts';
-import Notifications from './pages/Notifications';
-import Profile from './pages/Profile';
-import MeusPontos from './pages/MeusPontos';
-import MeusOrcamentos from './pages/MeusOrcamentos';
-import MeusProdutos from './pages/MyProducts';
-import MinhaLoja from './pages/MinhaLoja';
-import './App.css';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import LandingPage from './components/LandingPage';
+import StepOne from './components/StepOne';
+import StepTwo from './components/StepTwo';
+import StepThree from './components/StepThree';
+import StepFour from './components/StepFour';
+import StepFive from './components/StepFive';
+import ResultScreen from './components/ResultScreen';
+import ProgressBar from './components/ProgressBar';
+import { useFormDataWithAPI } from './hooks/useFormDataWithAPI';
 
-// Componente para proteger rotas que precisam de autenticação
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div 
-            className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
-            style={{ borderColor: '#A0453F' }}
-          ></div>
-          <p className="text-gray-600">Carregando...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+const STEPS = {
+  LANDING: 'landing',
+  STEP_1: 'step1',
+  STEP_2: 'step2', 
+  STEP_3: 'step3',
+  STEP_4: 'step4',
+  STEP_5: 'step5',
+  RESULT: 'result'
 };
 
-// Componente para redirecionar usuários autenticados
-const PublicRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div 
-            className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4"
-            style={{ borderColor: '#A0453F' }}
-          ></div>
-          <p className="text-gray-600">Carregando...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  return isAuthenticated ? <Navigate to="/" replace /> : children;
+const STEP_TITLES = {
+  [STEPS.STEP_1]: 'Identificação',
+  [STEPS.STEP_2]: 'Hábitos Digitais',
+  [STEPS.STEP_3]: 'Consumo',
+  [STEPS.STEP_4]: 'Saúde e Bem-estar',
+  [STEPS.STEP_5]: 'Dados Avançados'
 };
 
 function App() {
+  const [currentStep, setCurrentStep] = useState(STEPS.LANDING);
+  const { 
+    formData, 
+    calculationResult, 
+    loading, 
+    error, 
+    updateFormData, 
+    calculateValue,
+    resetForm 
+  } = useFormDataWithAPI();
+
+  const handleStart = () => {
+    setCurrentStep(STEPS.STEP_1);
+  };
+
+  const handleNext = () => {
+    const stepOrder = [STEPS.STEP_1, STEPS.STEP_2, STEPS.STEP_3, STEPS.STEP_4, STEPS.STEP_5];
+    const currentIndex = stepOrder.indexOf(currentStep);
+    
+    if (currentIndex < stepOrder.length - 1) {
+      setCurrentStep(stepOrder[currentIndex + 1]);
+    } else {
+      handleCalculate();
+    }
+  };
+
+  const handlePrevious = () => {
+    const stepOrder = [STEPS.STEP_1, STEPS.STEP_2, STEPS.STEP_3, STEPS.STEP_4, STEPS.STEP_5];
+    const currentIndex = stepOrder.indexOf(currentStep);
+    
+    if (currentIndex > 0) {
+      setCurrentStep(stepOrder[currentIndex - 1]);
+    } else {
+      setCurrentStep(STEPS.LANDING);
+    }
+  };
+
+  const handleCalculate = async () => {
+    try {
+      await calculateValue();
+      setCurrentStep(STEPS.RESULT);
+    } catch (error) {
+      console.error('Erro ao calcular:', error);
+    }
+  };
+
+  const handleRestart = () => {
+    resetForm();
+    setCurrentStep(STEPS.LANDING);
+  };
+
+  const getCurrentStepNumber = () => {
+    const stepOrder = [STEPS.STEP_1, STEPS.STEP_2, STEPS.STEP_3, STEPS.STEP_4, STEPS.STEP_5];
+    return stepOrder.indexOf(currentStep) + 1;
+  };
+
+  const getProgress = () => {
+    if (currentStep === STEPS.LANDING) return 0;
+    if (currentStep === STEPS.RESULT) return 100;
+    return (getCurrentStepNumber() / 5) * 100;
+  };
+
+  const renderCurrentStep = () => {
+    switch (currentStep) {
+      case STEPS.LANDING:
+        return <LandingPage onStart={handleStart} />;
+      
+      case STEPS.STEP_1:
+        return (
+          <StepOne
+            data={formData.personalInfo}
+            onUpdate={(data) => updateFormData('personalInfo', data)}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      
+      case STEPS.STEP_2:
+        return (
+          <StepTwo
+            data={formData.digitalHabits}
+            onUpdate={(data) => updateFormData('digitalHabits', data)}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      
+      case STEPS.STEP_3:
+        return (
+          <StepThree
+            data={formData.consumption}
+            onUpdate={(data) => updateFormData('consumption', data)}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      
+      case STEPS.STEP_4:
+        return (
+          <StepFour
+            data={formData.health}
+            onUpdate={(data) => updateFormData('health', data)}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+          />
+        );
+      
+      case STEPS.STEP_5:
+        return (
+          <StepFive
+            data={formData.advanced}
+            onUpdate={(data) => updateFormData('advanced', data)}
+            onCalculate={handleCalculate}
+            onPrevious={handlePrevious}
+            loading={loading}
+          />
+        );
+      
+      case STEPS.RESULT:
+        return (
+          <ResultScreen
+            result={calculationResult}
+            onRestart={handleRestart}
+            onBackToDataPay={() => setCurrentStep(STEPS.LANDING)}
+          />
+        );
+      
+      default:
+        return <LandingPage onStart={handleStart} />;
+    }
+  };
+
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            {/* Rotas públicas */}
-            <Route 
-              path="/login" 
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              } 
-            />
-            <Route 
-              path="/register" 
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              } 
-            />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      {/* Header com Progress Bar */}
+      {currentStep !== STEPS.LANDING && currentStep !== STEPS.RESULT && (
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-4xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Calculadora de Valor dos Dados
+              </h1>
+              <p className="text-sm text-gray-600">
+                Descubra quanto seus dados valem
+              </p>
+            </div>
             
-            {/* Rotas protegidas */}
-            <Route 
-              path="/" 
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } 
+            <ProgressBar 
+              currentStep={getCurrentStepNumber()}
+              totalSteps={5}
+              progress={getProgress()}
+              stepTitles={STEP_TITLES}
+              currentStepKey={currentStep}
             />
-            <Route 
-              path="/marketplace" 
-              element={
-                <ProtectedRoute>
-                  <Marketplace />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/messages" 
-              element={
-                <ProtectedRoute>
-                  <Messages />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/my-products" 
-              element={
-                <ProtectedRoute>
-                  <MyProducts />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/notifications" 
-              element={
-                <ProtectedRoute>
-                  <Notifications />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile/:userId" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/meus-pontos" 
-              element={
-                <ProtectedRoute>
-                  <MeusPontos />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/meus-orcamentos" 
-              element={
-                <ProtectedRoute>
-                  <MeusOrcamentos />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Rotas exclusivas para fornecedores (COMPANY ou SERVICE_PROVIDER) */}
-            <Route 
-              path="/meus-produtos" 
-              element={
-                <SupplierRoute>
-                  <MyProducts />
-                </SupplierRoute>
-              } 
-            />
-            <Route 
-              path="/minha-loja" 
-              element={
-                <SupplierRoute>
-                  <MinhaLoja />
-                </SupplierRoute>
-              } 
-            />
-            
-            {/* Rota padrão - redireciona para home */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          </div>
         </div>
-      </Router>
-    </AuthProvider>
+      )}
+
+      {/* Error Display */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mx-4 mt-4">
+          <p className="font-medium">Erro:</p>
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {renderCurrentStep()}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t py-4">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-sm text-gray-600">
+            🔒 Seus dados são processados de forma segura e anônima
+          </p>
+        </div>
+      </footer>
+    </div>
   );
 }
 
