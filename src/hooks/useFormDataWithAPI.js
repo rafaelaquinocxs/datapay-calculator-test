@@ -188,11 +188,19 @@ export const useFormDataWithAPI = () => {
         }
       }
       // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
+      // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
       if (currentSession && currentSession.calculationId) {
         setCalculationSession(prev => ({
           ...prev,
           sessionId: currentSession.sessionId,
           calculationId: currentSession.calculationId,
+          isLoading: false
+        }));
+      } else if (newSession && newSession.calculation_id) {
+        setCalculationSession(prev => ({
+          ...prev,
+          sessionId: newSession.session_id,
+          calculationId: newSession.calculation_id,
           isLoading: false
         }));
       }
