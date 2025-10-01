@@ -107,5 +107,6 @@ const apiServiceInternal = {
 };
 
 export const apiService = apiServiceInternal;
+window.apiService = apiServiceInternal;
 
 
