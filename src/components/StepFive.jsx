@@ -11,7 +11,7 @@ import {
   Palette,
   HelpCircle
 } from 'lucide-react';
-import { INCOME_RANGES, PROFESSIONAL_AREAS } from '@/types/index.js';
+import { INCOME_RANGES, PROFESSIONAL_AREAS } from '@/types';
 
 const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleIncomeSelect = (income) => {
