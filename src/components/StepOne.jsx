@@ -7,11 +7,17 @@ import { GENDER_OPTIONS } from '@/types';
 
 const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleGenderSelect = (gender) => {
-    updateFormData('personalInfo', { gender });
+    updateFormData('personalInfo', { 
+      ...formData?.personalInfo, 
+      gender 
+    });
   };
 
   const handleInputChange = (field, value) => {
-    updateFormData('personalInfo', { [field]: value });
+    updateFormData('personalInfo', { 
+      ...formData?.personalInfo, 
+      [field]: value 
+    });
   };
 
   const genderOptions = [
