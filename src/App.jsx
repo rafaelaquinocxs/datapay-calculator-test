@@ -99,51 +99,56 @@ function App() {
       case STEPS.STEP_1:
         return (
           <StepOne
-            data={formData.personalInfo}
-            onUpdate={(data) => updateFormData('personalInfo', data)}
+            formData={formData}
+            updateFormData={updateFormData}
             onNext={handleNext}
-            onPrevious={handlePrevious}
+            onPrev={handlePrevious}
+            canProceed={formData?.personalInfo?.age && formData?.personalInfo?.gender && formData?.personalInfo?.location}
           />
         );
       
       case STEPS.STEP_2:
         return (
           <StepTwo
-            data={formData.digitalHabits}
-            onUpdate={(data) => updateFormData('digitalHabits', data)}
+            formData={formData}
+            updateFormData={updateFormData}
             onNext={handleNext}
-            onPrevious={handlePrevious}
+            onPrev={handlePrevious}
+            canProceed={formData?.digitalHabits?.socialNetworks?.length > 0 && formData?.digitalHabits?.usageFrequency}
           />
         );
       
       case STEPS.STEP_3:
         return (
           <StepThree
-            data={formData.consumption}
-            onUpdate={(data) => updateFormData('consumption', data)}
+            formData={formData}
+            updateFormData={updateFormData}
             onNext={handleNext}
-            onPrevious={handlePrevious}
+            onPrev={handlePrevious}
+            canProceed={formData?.consumption?.shoppingChannels?.length > 0 && formData?.consumption?.favoriteCategories?.length > 0}
           />
         );
       
       case STEPS.STEP_4:
         return (
           <StepFour
-            data={formData.health}
-            onUpdate={(data) => updateFormData('health', data)}
+            formData={formData}
+            updateFormData={updateFormData}
             onNext={handleNext}
-            onPrevious={handlePrevious}
+            onPrev={handlePrevious}
+            canProceed={formData?.health?.healthInterests?.length > 0}
           />
         );
       
       case STEPS.STEP_5:
         return (
           <StepFive
-            data={formData.advanced}
-            onUpdate={(data) => updateFormData('advanced', data)}
+            formData={formData}
+            updateFormData={updateFormData}
             onCalculate={handleCalculate}
-            onPrevious={handlePrevious}
+            onPrev={handlePrevious}
             loading={loading}
+            canProceed={formData?.advanced?.incomeRange && formData?.advanced?.professionalArea}
           />
         );
       
