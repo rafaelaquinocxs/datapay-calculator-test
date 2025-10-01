@@ -32,20 +32,22 @@ export const useFormDataWithAPI = () => {
       const response = await apiService.startCalculation();
       console.log("Response from startCalculation:", response);
 
-      
       if (response.success) {
-        setCalculationSession(prev => ({
-          ...prev,
+        const newSessionData = {
           sessionId: response.session_id,
           calculationId: response.calculation_id,
           isLoading: false
-        }));
+        };
+        setCalculationSession(prev => ({ ...prev, ...newSessionData }));
+        console.log("Session initialized, calculationId set to:", response.calculation_id);
         
         // Salvar no localStorage para persistência
-        localStorage.setItem('datapay_session', JSON.stringify({
+        localStorage.setItem(\'datapay_session\', JSON.stringify({
           sessionId: response.session_id,
           calculationId: response.calculation_id
         }));
+        console.log("Session saved to localStorage:", localStorage.getItem(\'datapay_session\'));
+        console.log("Current calculationSession state after initializeSession:", newSessionData);
         
         return response;
       } else {
