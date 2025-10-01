@@ -116,7 +116,25 @@ export const useFormDataWithAPI = () => {
     try {
       setCalculationSession(prev => ({ ...prev, isLoading: true, error: null }));
       
-      const response = await apiService.calculateValue(calculationSession.calculationId);
+      console.log("Chamando calculateValue com calculationId:", calculationSession.calculationId);
+      // Simular resposta da API para depuração
+      const response = await new Promise(resolve => setTimeout(() => {
+        resolve({
+          success: true,
+          result: {
+            total_value: 1500.75,
+            breakdown: {
+              personalInfo: 300,
+              digitalHabits: 450,
+              consumption: 300,
+              health: 200,
+              advanced: 250
+            },
+            raw_values: {},
+            insights: ["Insight 1", "Insight 2"]
+          }
+        });
+      }, 2000)); // Simula 2 segundos de atraso
       
       if (response.success) {
         setCalculationResult(response.result);
