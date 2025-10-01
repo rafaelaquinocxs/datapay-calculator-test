@@ -67,6 +67,7 @@ function App() {
   };
 
   const handleCalculate = async () => {
+    alert('handleCalculate foi chamado!');
     console.log('🎯 handleCalculate iniciado');
     console.log('📊 FormData atual:', formData);
     console.log('🔑 CalculationSession:', calculationSession);
