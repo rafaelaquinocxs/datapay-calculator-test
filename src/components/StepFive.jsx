@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { INCOME_RANGES, PROFESSIONAL_AREAS } from '@/types';
 
-const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
+const StepFive = ({ formData, updateFormData, onCalculate, onPrev, canProceed, loading }) => {
   const handleIncomeSelect = (income) => {
     updateFormData('advanced', { incomeRange: income });
   };
@@ -165,17 +165,17 @@ const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           </Button>
           
           <Button
-            onClick={onNext}
-            disabled={!canProceed}
+            onClick={onCalculate}
+            disabled={!canProceed || loading}
             className={`
               px-8 py-3 transition-all duration-200
-              ${canProceed 
+              ${canProceed && !loading
                 ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white' 
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }
             `}
           >
-            Calcular Valor
+            {loading ? 'Calculando...' : 'Calcular Valor'}
           </Button>
         </div>
       </div>
