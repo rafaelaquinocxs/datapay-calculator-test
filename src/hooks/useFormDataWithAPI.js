@@ -175,14 +175,26 @@ export const useFormDataWithAPI = () => {
     );
   };
 
-  // Inicializar na primeira renderização
+  // Inicializar ou restaurar sessão na primeira renderização
   useEffect(() => {
     const setupSession = async () => {
-      const savedSession = restoreSession();
-      if (!savedSession) {
-        await initializeSession().catch(error => {
+      let currentSession = restoreSession();
+      if (!currentSession || !currentSession.calculationId) {
+        try {
+          const newSession = await initializeSession();
+          currentSession = newSession;
+        } catch (error) {
           console.error("Erro ao inicializar sessão:", error);
-        });
+        }
+      }
+      // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
+      if (currentSession && currentSession.calculationId) {
+        setCalculationSession(prev => ({
+          ...prev,
+          sessionId: currentSession.sessionId,
+          calculationId: currentSession.calculationId,
+          isLoading: false
+        }));
       }
     };
     setupSession();
