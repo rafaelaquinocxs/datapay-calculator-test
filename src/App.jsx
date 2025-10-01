@@ -66,19 +66,22 @@ function App() {
     }
   };
 
-  const handleCalculate = async () => {
-    alert('handleCalculate foi chamado!');
-    console.log('🎯 handleCalculate iniciado');
-    console.log('📊 FormData atual:', formData);
-    console.log('🔑 CalculationSession:', calculationSession);
-    
+    const handleCalculate = async () => {
+    console.log("🎯 handleCalculate iniciado");
+    console.log("📊 FormData atual:", formData);
+    const sessionId = calculationResult?.id; // Usar calculationResult para obter o ID
+    if (!sessionId) {
+      console.error("❌ Nenhum sessionId encontrado");
+      alert("Erro: ID da sessão de cálculo não encontrado. Por favor, tente novamente.");
+      return;
+    }
     try {
-      console.log('⏳ Chamando calculateValue...');
-      const result = await calculateValue();
-      console.log('✅ Resultado recebido:', result);
+      console.log("⏳ Chamando calculateValue com sessionId:", sessionId);
+      const result = await calculateValue(sessionId); // Passar sessionId para calculateValue
+      console.log("✅ Resultado recebido:", result);
       setCurrentStep(STEPS.RESULT);
     } catch (error) {
-      console.error('❌ Erro ao calcular:', error);
+      console.error("❌ Erro ao calcular:", error);
       alert(`Erro ao calcular: ${error.message}`);
     }
   };

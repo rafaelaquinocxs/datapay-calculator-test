@@ -42,11 +42,11 @@ export const useFormDataWithAPI = () => {
         console.log("Session initialized, calculationId set to:", response.calculation_id);
         
         // Salvar no localStorage para persistência
-        localStorage.setItem(\'datapay_session\', JSON.stringify({
+                localStorage.setItem('datapay_session', JSON.stringify({
           sessionId: response.session_id,
           calculationId: response.calculation_id
         }));
-        console.log("Session saved to localStorage:", localStorage.getItem(\'datapay_session\'));
+                console.log("Session saved to localStorage:", localStorage.getItem("datapay_session"));
         console.log("Current calculationSession state after initializeSession:", newSessionData);
         
         return response;
@@ -115,28 +115,30 @@ export const useFormDataWithAPI = () => {
   };
 
   // Calcular valor final
-    const calculateFinalValue = async () => {
+  const calculateFinalValue = async (sessionId) => {
     console.log("calculateFinalValue chamado!");
-    console.log("calculationId:", calculationSession.calculationId);
+    console.log("sessionId recebido:", sessionId);
     console.log("formData para cálculo:", formData);
-    const sessionId = calculationSession.calculationId;
+
     if (!sessionId) {
       console.error("❌ Nenhum ID de cálculo encontrado.");
       setCalculationSession(prev => ({ ...prev, error: "Nenhum ID de cálculo encontrado. Por favor, reinicie a sessão." }));
-      return;
+      throw new Error("ID da sessão de cálculo não encontrado.");
     }
 
     try {
       setCalculationSession(prev => ({ ...prev, isLoading: true, error: null }));
       
-      const response = await apiService.calculateValue(sessionId);
+      const response = await apiService.calculateValue(sessionId, formData);
       
       if (response.success) {
         setCalculationResult(response.result);
-        setCalculationSession(prev => ({ ...prev, isLoading: false, currentStep: 6 }));
+        setCalculationSession(prev => ({ ...prev, isLoading: false }));
+        return response.result;
       } else {
         console.error("Erro na resposta da API:", response);
         setCalculationSession(prev => ({ ...prev, isLoading: false, error: response.error || "Erro ao calcular o valor dos dados." }));
+        throw new Error(response.error || "Erro ao calcular o valor dos dados.");
       }
     } catch (error) {
       console.error("Erro ao chamar a API de cálculo:", error);
@@ -196,18 +198,19 @@ export const useFormDataWithAPI = () => {
           console.error("Erro ao inicializar sessão:", error);
         }
 
-      // Priorizar a sessão recém-inicializada, se houver, caso contrário, usar a restaurada
-      let finalSessionToSet = newSessionData || currentSessionData;
+        // Priorizar a sessão recém-inicializada, se houver, caso contrário, usar a restaurada
+        let finalSessionToSet = newSessionData || currentSessionData;
 
-      if (finalSessionToSet && finalSessionToSet.calculationId) {
-        setCalculationSession(prev => ({
-          ...prev,
-          sessionId: finalSessionToSet.sessionId,
-          calculationId: finalSessionToSet.calculationId,
-          isLoading: false
-        }));
-      } else {
-        console.warn("Nenhum calculationId válido encontrado após setup da sessão.");
+        if (finalSessionToSet && finalSessionToSet.calculationId) {
+          setCalculationSession(prev => ({
+            ...prev,
+            sessionId: finalSessionToSet.sessionId,
+            calculationId: finalSessionToSet.calculationId,
+            isLoading: false
+          }));
+        } else {
+          console.warn("Nenhum calculationId válido encontrado após setup da sessão.");
+        }
       }
     };
     setupSession();

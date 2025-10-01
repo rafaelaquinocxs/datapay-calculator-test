@@ -215,7 +215,7 @@ const ResultScreen = ({ formData, calculationResult, onRestart, onBack }) => {
         <Button
           onClick={() => {
             const link = document.createElement('a');
-            link.href = '/Guiaovalordosseusdados.pdf';
+            link.href = 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663157455975/UUDoQNMbEeogVsuq.pdf';
             link.download = 'Guiaovalordosseusdados.pdf';
             document.body.appendChild(link);
             link.click();

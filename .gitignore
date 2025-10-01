@@ -13,3 +13,4 @@ pnpm-debug.log*
 # Configurações do sistema
 .DS_Store
 Thumbs.db
+.vercel

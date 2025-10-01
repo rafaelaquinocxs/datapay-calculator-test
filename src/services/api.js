@@ -73,10 +73,10 @@ const apiServiceInternal = {
   },
 
   // Calcular valor final
-  async calculateValue(calculationId) {
+  async calculateValue(calculationId, formData) {
 
     try {
-      const response = await api.post(`/calculations/${calculationId}/calculate`);
+      const response = await api.post(`/calculations/${calculationId}/calculate`, formData);
       return response.data;
     } catch (error) {
       console.error("Failed to calculate value:", error);
