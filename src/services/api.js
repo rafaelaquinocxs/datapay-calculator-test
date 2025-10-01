@@ -38,14 +38,14 @@ api.interceptors.response.use(
 );
 
 // Serviços da API DataPay
-export const apiService = {
+const apiServiceInternal = {
   // Health check
   async healthCheck() {
     try {
-      const response = await api.get('/health');
+      const response = await api.get("/health");
       return response.data;
     } catch (error) {
-      console.error('Health check failed:', error);
+      console.error("Health check failed:", error);
       throw error;
     }
   },
@@ -53,10 +53,10 @@ export const apiService = {
   // Iniciar nova calculação
   async startCalculation(formData = {}) {
     try {
-      const response = await api.post('/calculations/start', formData);
+      const response = await api.post("/calculations/start", formData);
       return response.data;
     } catch (error) {
-      console.error('Failed to start calculation:', error);
+      console.error("Failed to start calculation:", error);
       throw error;
     }
   },
@@ -67,7 +67,7 @@ export const apiService = {
       const response = await api.put(`/calculations/${calculationId}/update`, formData);
       return response.data;
     } catch (error) {
-      console.error('Failed to update calculation:', error);
+      console.error("Failed to update calculation:", error);
       throw error;
     }
   },
@@ -78,7 +78,7 @@ export const apiService = {
       const response = await api.post(`/calculations/${calculationId}/calculate`);
       return response.data;
     } catch (error) {
-      console.error('Failed to calculate value:', error);
+      console.error("Failed to calculate value:", error);
       throw error;
     }
   },
@@ -89,7 +89,7 @@ export const apiService = {
       const response = await api.get(`/calculations/${calculationId}`);
       return response.data;
     } catch (error) {
-      console.error('Failed to get calculation:', error);
+      console.error("Failed to get calculation:", error);
       throw error;
     }
   },
@@ -97,13 +97,15 @@ export const apiService = {
   // Obter estatísticas gerais
   async getStatistics() {
     try {
-      const response = await api.get('/statistics');
+      const response = await api.get("/statistics");
       return response.data;
     } catch (error) {
-      console.error('Failed to get statistics:', error);
+      console.error("Failed to get statistics:", error);
       throw error;
     }
   }
 };
 
-export default api;
+export const apiService = apiServiceInternal;
+
+
