@@ -193,20 +193,23 @@ export const useFormDataWithAPI = () => {
         }
       }
       // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
-      if (currentSession && currentSession.calculationId) {
-        setCalculationSession(prev => ({
-          ...prev,
-          sessionId: currentSession.sessionId,
-          calculationId: currentSession.calculationId,
-          isLoading: false
-        }));
-      } else if (newSession && newSession.calculation_id) {
-        setCalculationSession(prev => ({
-          ...prev,
+      let finalSessionData = null;
+      if (newSession && newSession.calculation_id) {
+        finalSessionData = {
           sessionId: newSession.session_id,
           calculationId: newSession.calculation_id,
           isLoading: false
-        }));
+        };
+      } else if (currentSession && currentSession.calculationId) {
+        finalSessionData = {
+          sessionId: currentSession.sessionId,
+          calculationId: currentSession.calculationId,
+          isLoading: false
+        };
+      }
+
+      if (finalSessionData) {
+        setCalculationSession(prev => ({ ...prev, ...finalSessionData }));
       }
     };
     setupSession();
