@@ -52,7 +52,7 @@ export const useFormDataWithAPI = () => {
         isLoading: false,
         error: error.message
       }));
-      alert(`Erro na calculateFinalValue: ${error.message}`);
+
       throw error;
     }
   };
@@ -131,7 +131,7 @@ export const useFormDataWithAPI = () => {
         isLoading: false,
         error: error.message
       }));
-      alert(`Erro na calculateFinalValue: ${error.message}`);
+
       throw error;
     }
   };
@@ -193,7 +193,7 @@ export const useFormDataWithAPI = () => {
   };
 
   // Expor o hook globalmente para depuração
-  window.useFormDataWithAPI = exposedHook;
+  
 
   return exposedHook;
 };
