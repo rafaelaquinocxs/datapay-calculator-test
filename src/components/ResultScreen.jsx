@@ -67,6 +67,18 @@ const ResultScreen = ({ formData, calculationResult, onRestart, onBack }) => {
           R$ {isAnimating ? '0.00' : calculationResult.total_value?.toFixed(2) || '0.00'}
         </motion.h1>
         
+        {calculationResult?.calculationId && (
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="text-sm text-gray-500 mb-2"
+          >
+            ID do Cálculo: {calculationResult.calculationId}
+          </motion.p>
+        )}
+        </motion.h1>
+        
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
