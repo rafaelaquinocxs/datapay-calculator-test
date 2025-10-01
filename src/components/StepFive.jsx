@@ -165,7 +165,7 @@ const StepFive = ({ formData, updateFormData, onCalculate, onPrev, canProceed, l
           </Button>
           
           <Button
-            onClick={onCalculate}
+            onClick={() => { alert('onCalculate chamado do StepFive!'); onCalculate(); }}
             disabled={!canProceed || loading}
             className={`
               px-8 py-3 transition-all duration-200
