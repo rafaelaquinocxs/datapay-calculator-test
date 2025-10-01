@@ -183,33 +183,31 @@ export const useFormDataWithAPI = () => {
   // Inicializar ou restaurar sessão na primeira renderização
   useEffect(() => {
     const setupSession = async () => {
-      let currentSession = restoreSession();
-      if (!currentSession || !currentSession.calculationId) {
+      let currentSessionData = restoreSession();
+      let newSessionData = null;
+
+      if (!currentSessionData || !currentSessionData.calculationId) {
         try {
-          const newSession = await initializeSession();
-          currentSession = newSession;
+          const response = await initializeSession();
+          if (response && response.calculation_id) {
+            newSessionData = { sessionId: response.session_id, calculationId: response.calculation_id };
+          }
         } catch (error) {
           console.error("Erro ao inicializar sessão:", error);
         }
-      }
-      // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
-      let finalSessionData = null;
-      if (newSession && newSession.calculation_id) {
-        finalSessionData = {
-          sessionId: newSession.session_id,
-          calculationId: newSession.calculation_id,
-          isLoading: false
-        };
-      } else if (currentSession && currentSession.calculationId) {
-        finalSessionData = {
-          sessionId: currentSession.sessionId,
-          calculationId: currentSession.calculationId,
-          isLoading: false
-        };
-      }
 
-      if (finalSessionData) {
-        setCalculationSession(prev => ({ ...prev, ...finalSessionData }));
+      // Priorizar a sessão recém-inicializada, se houver, caso contrário, usar a restaurada
+      let finalSessionToSet = newSessionData || currentSessionData;
+
+      if (finalSessionToSet && finalSessionToSet.calculationId) {
+        setCalculationSession(prev => ({
+          ...prev,
+          sessionId: finalSessionToSet.sessionId,
+          calculationId: finalSessionToSet.calculationId,
+          isLoading: false
+        }));
+      } else {
+        console.warn("Nenhum calculationId válido encontrado após setup da sessão.");
       }
     };
     setupSession();
