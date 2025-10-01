@@ -172,12 +172,15 @@ export const useFormDataWithAPI = () => {
 
   // Inicializar na primeira renderização
   useEffect(() => {
-    const savedSession = restoreSession();
-    if (!savedSession) {
-      initializeSession().catch(error => {
-        console.error('Erro ao inicializar sessão:', error);
-      });
-    }
+    const setupSession = async () => {
+      const savedSession = restoreSession();
+      if (!savedSession) {
+        await initializeSession().catch(error => {
+          console.error("Erro ao inicializar sessão:", error);
+        });
+      }
+    };
+    setupSession();
   }, []);
 
   const exposedHook = {
