@@ -110,7 +110,7 @@ export const useFormDataWithAPI = () => {
   // Calcular valor final
     const calculateFinalValue = async () => {
     if (!calculationSession.calculationId) {
-      throw new Error('Nenhuma sessão ativa');
+      throw new Error("Nenhuma sessão ativa");
     }
 
     try {
@@ -135,7 +135,6 @@ export const useFormDataWithAPI = () => {
       throw error;
     }
   };
-
   // Limpar sessão
   const clearSession = () => {
     setFormData({

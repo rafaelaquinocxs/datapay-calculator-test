@@ -74,7 +74,7 @@ const apiServiceInternal = {
 
   // Calcular valor final
   async calculateValue(calculationId) {
-    console.log(`[API Service] Chamando calculateValue para calculationId: ${calculationId}`);
+
     try {
       const response = await api.post(`/calculations/${calculationId}/calculate`);
       return response.data;
@@ -108,6 +108,6 @@ const apiServiceInternal = {
 };
 
 export const apiService = apiServiceInternal;
-window.apiService = apiServiceInternal;
+
 
 
