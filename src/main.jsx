@@ -4,6 +4,8 @@ import './index.css'
 import App from './App.jsx'
 import { apiService } from './services/api.js';
 
+console.log('main.jsx loaded');
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
