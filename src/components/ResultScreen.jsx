@@ -77,7 +77,6 @@ const ResultScreen = ({ formData, calculationResult, onRestart, onBack }) => {
             ID do Cálculo: {calculationResult.calculationId}
           </motion.p>
         )}
-        </motion.h1>
         
         <motion.p
           initial={{ y: 20, opacity: 0 }}
