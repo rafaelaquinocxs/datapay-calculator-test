@@ -91,8 +91,8 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           <Label className="text-base font-medium text-gray-700">
             Frequência de Uso
           </Label>
-          <div className="space-y-4">
-            <div className="px-4">
+          <div className="space-y-4 bg-white p-6 rounded-lg border-2 border-gray-200">
+            <div className="px-4 py-4">
               <Slider
                 value={[formData?.digitalHabits?.usageFrequency || 5]}
                 onValueChange={handleFrequencyChange}
@@ -104,7 +104,7 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
             </div>
             <div className="flex justify-between text-sm text-gray-500 px-4">
               <span>Pouco</span>
-              <span className="font-medium text-blue-600">
+              <span className="font-medium text-blue-600 text-lg">
                 {getFrequencyLabel(formData?.digitalHabits?.usageFrequency || 5)}
               </span>
               <span>Muito</span>

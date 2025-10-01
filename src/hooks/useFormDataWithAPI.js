@@ -4,7 +4,9 @@ import { apiService } from '../services/api';
 export const useFormDataWithAPI = () => {
   const [formData, setFormData] = useState({
     personalInfo: {},
-    digitalHabits: {},
+    digitalHabits: {
+      usageFrequency: 5  // Valor padrão
+    },
     consumption: {},
     health: {},
     advanced: {}
