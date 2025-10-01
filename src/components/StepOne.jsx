@@ -6,7 +6,13 @@ import { Label } from '@/components/ui/label.jsx';
 import { GENDER_OPTIONS } from '@/types';
 
 const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
+  // Debug temporário
+  console.log('StepOne - formData:', formData);
+  console.log('StepOne - canProceed:', canProceed);
+  console.log('StepOne - personalInfo:', formData?.personalInfo);
+
   const handleGenderSelect = (gender) => {
+    console.log('Selecionando gênero:', gender);
     updateFormData('personalInfo', { 
       ...formData?.personalInfo, 
       gender 
@@ -14,6 +20,7 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   };
 
   const handleInputChange = (field, value) => {
+    console.log('Alterando campo:', field, 'valor:', value);
     updateFormData('personalInfo', { 
       ...formData?.personalInfo, 
       [field]: value 
