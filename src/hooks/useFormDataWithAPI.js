@@ -109,8 +109,6 @@ export const useFormDataWithAPI = () => {
 
   // Calcular valor final
     const calculateFinalValue = async () => {
-        console.log("Attempting to calculate final value with formData:", formData);
-        console.log("Current calculationId:", calculationSession.calculationId);
     if (!calculationSession.calculationId) {
       throw new Error('Nenhuma sessão ativa');
     }
