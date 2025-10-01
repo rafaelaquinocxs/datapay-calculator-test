@@ -67,11 +67,18 @@ function App() {
   };
 
   const handleCalculate = async () => {
+    console.log('🎯 handleCalculate iniciado');
+    console.log('📊 FormData atual:', formData);
+    console.log('🔑 CalculationSession:', calculationSession);
+    
     try {
-      await calculateValue();
+      console.log('⏳ Chamando calculateValue...');
+      const result = await calculateValue();
+      console.log('✅ Resultado recebido:', result);
       setCurrentStep(STEPS.RESULT);
     } catch (error) {
-      console.error('Erro ao calcular:', error);
+      console.error('❌ Erro ao calcular:', error);
+      alert(`Erro ao calcular: ${error.message}`);
     }
   };
 
