@@ -14,7 +14,6 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleGenderSelect = (gender) => {
     console.log('Selecionando gênero:', gender);
     updateFormData('personalInfo', { 
-      ...formData?.personalInfo, 
       gender 
     });
   };
@@ -22,17 +21,9 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleInputChange = (field, value) => {
     console.log('Alterando campo:', field, 'valor:', value);
     updateFormData('personalInfo', { 
-      ...formData?.personalInfo, 
       [field]: value 
     });
   };
-
-  const genderOptions = [
-    { value: GENDER_OPTIONS.MASCULINO, label: 'Masculino' },
-    { value: GENDER_OPTIONS.FEMININO, label: 'Feminino' },
-    { value: GENDER_OPTIONS.OUTRO, label: 'Outro' },
-    { value: GENDER_OPTIONS.PREFIRO_NAO_DIZER, label: 'Prefiro não dizer' }
-  ];
 
   return (
     <motion.div
@@ -66,7 +57,7 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
             Gênero
           </Label>
           <div className="grid grid-cols-2 gap-3">
-            {genderOptions.map((option) => (
+            {GENDER_OPTIONS.map((option) => (
               <motion.button
                 key={option.value}
                 onClick={() => handleGenderSelect(option.value)}

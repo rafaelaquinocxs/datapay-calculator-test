@@ -8,7 +8,7 @@ import { SOCIAL_NETWORKS } from '@/types';
 
 const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleSocialNetworkToggle = (network) => {
-    const currentNetworks = formData?.digitalHabits.socialNetworks || [];
+    const currentNetworks = formData?.digitalHabits?.socialNetworks || [];
     const isSelected = currentNetworks.includes(network);
     
     let updatedNetworks;
@@ -57,7 +57,7 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           <div className="grid grid-cols-2 gap-3">
             {socialNetworkOptions.map((option) => {
               const Icon = option.icon;
-              const isSelected = formData?.digitalHabits.socialNetworks?.includes(option.value);
+              const isSelected = formData?.digitalHabits?.socialNetworks?.includes(option.value);
               
               return (
                 <motion.button
@@ -94,7 +94,7 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           <div className="space-y-4">
             <div className="px-4">
               <Slider
-                value={[formData?.digitalHabits.usageFrequency || 5]}
+                value={[formData?.digitalHabits?.usageFrequency || 5]}
                 onValueChange={handleFrequencyChange}
                 max={10}
                 min={1}
@@ -105,7 +105,7 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
             <div className="flex justify-between text-sm text-gray-500 px-4">
               <span>Pouco</span>
               <span className="font-medium text-blue-600">
-                {getFrequencyLabel(formData?.digitalHabits.usageFrequency || 5)}
+                {getFrequencyLabel(formData?.digitalHabits?.usageFrequency || 5)}
               </span>
               <span>Muito</span>
             </div>
@@ -113,11 +113,11 @@ const StepTwo = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
         </div>
 
         {/* Seleções atuais */}
-        {formData?.digitalHabits.socialNetworks?.length > 0 && (
+        {formData?.digitalHabits?.socialNetworks?.length > 0 && (
           <div className="bg-blue-50 p-4 rounded-lg">
             <h4 className="font-medium text-blue-800 mb-2">Redes selecionadas:</h4>
             <div className="flex flex-wrap gap-2">
-              {formData?.digitalHabits.socialNetworks.map(network => {
+              {formData?.digitalHabits?.socialNetworks.map(network => {
                 const option = socialNetworkOptions.find(opt => opt.value === network);
                 return (
                   <span key={network} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">

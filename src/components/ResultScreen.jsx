@@ -202,11 +202,18 @@ const ResultScreen = ({ formData, calculationResult, onRestart, onBack }) => {
         className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
       >
         <Button
-          onClick={() => alert('Funcionalidade em desenvolvimento!')}
+          onClick={() => {
+            const link = document.createElement('a');
+            link.href = '/Guiaovalordosseusdados.pdf';
+            link.download = 'Guiaovalordosseusdados.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
           className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
         >
           <Vault className="w-6 h-6 mr-2" />
-          Criar meu Cofre de Dados
+          Baixar Guia de Valor dos Dados
         </Button>
         
         <Button

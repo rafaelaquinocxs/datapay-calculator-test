@@ -14,7 +14,7 @@ import { HEALTH_INTERESTS } from '@/types';
 
 const StepFour = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleHealthInterestToggle = (interest) => {
-    const currentInterests = formData?.health.healthInterests || [];
+    const currentInterests = formData?.health?.healthInterests || [];
     const isSelected = currentInterests.includes(interest);
     
     let updatedInterests;
@@ -56,7 +56,7 @@ const StepFour = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           <div className="grid grid-cols-1 gap-3">
             {healthInterestOptions.map((option) => {
               const Icon = option.icon;
-              const isSelected = formData?.health.healthInterests?.includes(option.value);
+              const isSelected = formData?.health?.healthInterests?.includes(option.value);
               
               return (
                 <motion.button
@@ -86,11 +86,11 @@ const StepFour = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
         </div>
 
         {/* Seleções atuais */}
-        {formData?.health.healthInterests?.length > 0 && (
+        {formData?.health?.healthInterests?.length > 0 && (
           <div className="bg-green-50 p-4 rounded-lg">
             <h4 className="font-medium text-green-800 mb-2">Interesses selecionados:</h4>
             <div className="flex flex-wrap gap-2">
-              {formData?.health.healthInterests.map(interest => {
+              {formData?.health?.healthInterests.map(interest => {
                 const option = healthInterestOptions.find(opt => opt.value === interest);
                 return (
                   <span key={interest} className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
@@ -103,7 +103,7 @@ const StepFour = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
         )}
 
         {/* Mensagem informativa */}
-        {formData?.health.healthInterests?.length === 0 && (
+        {formData?.health?.healthInterests?.length === 0 && (
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-blue-700 text-sm">
               💡 <strong>Dica:</strong> Seus interesses em saúde ajudam empresas do setor a oferecer produtos e serviços mais relevantes para você.

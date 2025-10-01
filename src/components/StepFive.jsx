@@ -22,21 +22,24 @@ const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
     updateFormData('advanced', { professionalArea: area });
   };
 
-  const incomeOptions = [
-    { value: INCOME_RANGES.ATE_3000, label: 'Até R$ 3.000', icon: DollarSign },
-    { value: INCOME_RANGES.ENTRE_3000_8000, label: 'R$ 3.000 - R$ 8.000', icon: DollarSign },
-    { value: INCOME_RANGES.ACIMA_8000, label: 'Acima de R$ 8.000', icon: DollarSign },
-    { value: INCOME_RANGES.NAO_INFORMAR, label: 'Prefiro não informar', icon: HelpCircle }
-  ];
+  const incomeOptions = INCOME_RANGES.map(range => ({
+    ...range,
+    icon: range.value === 'prefiro_nao_informar' ? HelpCircle : DollarSign
+  }));
 
-  const professionalAreaOptions = [
-    { value: 'tecnologia', label: 'Tecnologia', icon: Code },
-    { value: 'negocios_vendas', label: 'Negócios/Vendas', icon: TrendingUp },
-    { value: 'saude', label: 'Saúde', icon: Heart },
-    { value: 'educacao', label: 'Educação', icon: GraduationCap },
-    { value: 'criativo_design', label: 'Criativo/Design', icon: Palette },
-    { value: 'outro', label: 'Outro', icon: HelpCircle }
-  ];
+  const iconMap = {
+    'tecnologia': Code,
+    'negocios_vendas': TrendingUp,
+    'saude': Heart,
+    'educacao': GraduationCap,
+    'criativo_design': Palette,
+    'outro': HelpCircle
+  };
+
+  const professionalAreaOptions = PROFESSIONAL_AREAS.map(area => ({
+    ...area,
+    icon: iconMap[area.value] || HelpCircle
+  }));
 
   return (
     <motion.div
@@ -92,7 +95,7 @@ const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
           <div className="grid grid-cols-2 gap-3">
             {professionalAreaOptions.map((option) => {
               const Icon = option.icon;
-              const isSelected = formData?.advanced.professionalArea === option.value;
+              const isSelected = formData?.advanced?.professionalArea === option.value;
               
               return (
                 <motion.button
@@ -122,22 +125,22 @@ const StepFive = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
         </div>
 
         {/* Resumo das seleções */}
-        {(formData?.advanced.incomeRange || formData?.advanced.professionalArea) && (
+        {(formData?.advanced?.incomeRange || formData?.advanced?.professionalArea) && (
           <div className="bg-purple-50 p-4 rounded-lg space-y-2">
             <h4 className="font-medium text-purple-800 mb-2">Informações selecionadas:</h4>
-            {formData?.advanced.incomeRange && (
+            {formData?.advanced?.incomeRange && (
               <div className="flex items-center space-x-2">
                 <span className="text-purple-600">💰</span>
                 <span className="text-purple-700">
-                  {incomeOptions.find(opt => opt.value === formData?.advanced.incomeRange)?.label}
+                  {incomeOptions.find(opt => opt.value === formData?.advanced?.incomeRange)?.label}
                 </span>
               </div>
             )}
-            {formData?.advanced.professionalArea && (
+            {formData?.advanced?.professionalArea && (
               <div className="flex items-center space-x-2">
                 <span className="text-purple-600">💼</span>
                 <span className="text-purple-700">
-                  {professionalAreaOptions.find(opt => opt.value === formData?.advanced.professionalArea)?.label}
+                  {professionalAreaOptions.find(opt => opt.value === formData?.advanced?.professionalArea)?.label}
                 </span>
               </div>
             )}
