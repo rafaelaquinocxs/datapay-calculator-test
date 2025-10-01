@@ -119,14 +119,17 @@ export const useFormDataWithAPI = () => {
     console.log("calculateFinalValue chamado!");
     console.log("calculationId:", calculationSession.calculationId);
     console.log("formData para cálculo:", formData);
-    if (!calculationSession.calculationId) {
-      throw new Error("Nenhuma sessão ativa");
+    const currentCalculationId = calculationSession.calculationId;
+    if (!currentCalculationId) {
+      console.error("❌ Nenhum ID de cálculo encontrado");
+      setCalculationSession(prev => ({ ...prev, error: "Nenhum ID de cálculo encontrado. Por favor, reinicie a sessão." }));
+      return;
     }
 
     try {
       setCalculationSession(prev => ({ ...prev, isLoading: true, error: null }));
       
-      const response = await apiService.calculateValue(calculationSession.calculationId);
+      const response = await apiService.calculateValue(currentCalculationId);
       
       if (response.success) {
         setCalculationResult(response.result);
@@ -189,7 +192,6 @@ export const useFormDataWithAPI = () => {
           console.error("Erro ao inicializar sessão:", error);
         }
       }
-      // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
       // Certificar que o estado calculationSession está atualizado após a inicialização/restauração
       if (currentSession && currentSession.calculationId) {
         setCalculationSession(prev => ({
