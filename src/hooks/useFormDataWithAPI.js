@@ -179,8 +179,11 @@ export const useFormDataWithAPI = () => {
     updateFormData,
     calculationSession,
     calculationResult,
+    loading: calculationSession.isLoading,
+    error: calculationSession.error,
     initializeSession,
-    calculateFinalValue,
+    calculateValue: calculateFinalValue,
+    resetForm: clearSession,
     clearSession,
     isFormComplete
   };
