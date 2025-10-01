@@ -21,7 +21,7 @@ import { SHOPPING_CHANNELS, SHOPPING_CATEGORIES } from '@/types';
 
 const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
   const handleChannelToggle = (channel) => {
-    const currentChannels = formData.consumption.shoppingChannels || [];
+    const currentChannels = formData?.consumption.shoppingChannels || [];
     const isSelected = currentChannels.includes(channel);
     
     let updatedChannels;
@@ -35,7 +35,7 @@ const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => 
   };
 
   const handleCategoryToggle = (category) => {
-    const currentCategories = formData.consumption.favoriteCategories || [];
+    const currentCategories = formData?.consumption.favoriteCategories || [];
     const isSelected = currentCategories.includes(category);
     
     let updatedCategories;
@@ -84,7 +84,7 @@ const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => 
           <div className="space-y-3">
             {shoppingChannelOptions.map((option) => {
               const Icon = option.icon;
-              const isSelected = formData.consumption.shoppingChannels?.includes(option.value);
+              const isSelected = formData?.consumption.shoppingChannels?.includes(option.value);
               
               return (
                 <motion.button
@@ -121,7 +121,7 @@ const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => 
           <div className="grid grid-cols-2 gap-3">
             {categoryOptions.map((option) => {
               const Icon = option.icon;
-              const isSelected = formData.consumption.favoriteCategories?.includes(option.value);
+              const isSelected = formData?.consumption.favoriteCategories?.includes(option.value);
               
               return (
                 <motion.button
@@ -151,13 +151,13 @@ const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => 
         </div>
 
         {/* Resumo das seleções */}
-        {(formData.consumption.shoppingChannels?.length > 0 || formData.consumption.favoriteCategories?.length > 0) && (
+        {(formData?.consumption.shoppingChannels?.length > 0 || formData?.consumption.favoriteCategories?.length > 0) && (
           <div className="bg-blue-50 p-4 rounded-lg space-y-3">
-            {formData.consumption.shoppingChannels?.length > 0 && (
+            {formData?.consumption.shoppingChannels?.length > 0 && (
               <div>
                 <h4 className="font-medium text-blue-800 mb-2">Canais de compra:</h4>
                 <div className="flex flex-wrap gap-2">
-                  {formData.consumption.shoppingChannels.map(channel => {
+                  {formData?.consumption.shoppingChannels.map(channel => {
                     const option = shoppingChannelOptions.find(opt => opt.value === channel);
                     return (
                       <span key={channel} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
@@ -169,11 +169,11 @@ const StepThree = ({ formData, updateFormData, onNext, onPrev, canProceed }) => 
               </div>
             )}
             
-            {formData.consumption.favoriteCategories?.length > 0 && (
+            {formData?.consumption.favoriteCategories?.length > 0 && (
               <div>
                 <h4 className="font-medium text-blue-800 mb-2">Categorias favoritas:</h4>
                 <div className="flex flex-wrap gap-2">
-                  {formData.consumption.favoriteCategories.map(category => {
+                  {formData?.consumption.favoriteCategories.map(category => {
                     const option = categoryOptions.find(opt => opt.value === category);
                     return (
                       <span key={category} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">

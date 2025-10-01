@@ -39,7 +39,7 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
             id="age"
             type="number"
             placeholder="Sua idade"
-            value={formData.personalInfo.age}
+            value={formData?.personalInfo?.age || ''}
             onChange={(e) => handleInputChange('age', e.target.value)}
             className="text-lg py-3 px-4 border-2 border-gray-200 focus:border-blue-500 transition-colors"
             min="18"
@@ -59,7 +59,7 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
                 onClick={() => handleGenderSelect(option.value)}
                 className={`
                   p-4 rounded-lg border-2 text-left transition-all duration-200
-                  ${formData.personalInfo.gender === option.value
+                  ${formData?.personalInfo?.gender === option.value
                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                     : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                   }
@@ -82,7 +82,7 @@ const StepOne = ({ formData, updateFormData, onNext, onPrev, canProceed }) => {
             id="location"
             type="text"
             placeholder="Ex: São Paulo, SP"
-            value={formData.personalInfo.location}
+            value={formData?.personalInfo?.location || ''}
             onChange={(e) => handleInputChange('location', e.target.value)}
             className="text-lg py-3 px-4 border-2 border-gray-200 focus:border-blue-500 transition-colors"
           />
