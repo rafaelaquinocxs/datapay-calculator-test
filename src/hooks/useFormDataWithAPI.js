@@ -22,7 +22,8 @@ export const useFormDataWithAPI = () => {
   const [calculationResult, setCalculationResult] = useState(null);
 
   // Inicializar sessão da calculadora
-  const initializeSession = async () => {
+    const initializeSession = async () => {
+      console.log("Attempting to initialize session...");
     try {
       setCalculationSession(prev => ({ ...prev, isLoading: true, error: null }));
       
