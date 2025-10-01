@@ -178,7 +178,7 @@ export const useFormDataWithAPI = () => {
     }
   }, []);
 
-  return {
+  const exposedHook = {
     formData,
     updateFormData,
     calculationSession,
@@ -191,4 +191,9 @@ export const useFormDataWithAPI = () => {
     clearSession,
     isFormComplete
   };
+
+  // Expor o hook globalmente para depuração
+  window.useFormDataWithAPI = exposedHook;
+
+  return exposedHook;
 };
