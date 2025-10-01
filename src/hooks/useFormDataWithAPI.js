@@ -192,7 +192,8 @@ export const useFormDataWithAPI = () => {
     isFormComplete
   };
 
-  // Expor o hook globalmente para depuração
+    // Expor o hook globalmente para depuração
+  window.useFormDataWithAPI = exposedHook;
   
 
   return exposedHook;
