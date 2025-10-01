@@ -52,6 +52,7 @@ export const useFormDataWithAPI = () => {
         isLoading: false,
         error: error.message
       }));
+      alert(`Erro na calculateFinalValue: ${error.message}`);
       throw error;
     }
   };
@@ -130,6 +131,7 @@ export const useFormDataWithAPI = () => {
         isLoading: false,
         error: error.message
       }));
+      alert(`Erro na calculateFinalValue: ${error.message}`);
       throw error;
     }
   };
